@@ -2,18 +2,29 @@ package main
 
 import (
 
+	//internal
+	"fmt"
+
 	//external
 	"code.google.com/p/gopacket"
 	"code.google.com/p/gopacket/pcap"
+	"gopkg.in/alecthomas/kingpin.v2"
+)
+
+var (
+	iface = kingpin.Arg("interface", "interface to sniff traffic on").Default("wlan0").String()
+	port  = kingpin.Arg("port", "port to expose for zmq").Default("7777").String()
 )
 
 func main() {
+	kingpin.Parse()
 	caps := make(chan *DNSCapture)
+	fmt.Printf("Listening on %s\nPublishing on %s\n", *iface, *port)
 
 	// start capture consumer
-	go publisher(caps)
+	go publisher(caps, *port)
 
-	handle, err := pcap.OpenLive("wlan0", 1600, true, 0)
+	handle, err := pcap.OpenLive(*iface, 1600, true, 0)
 	if err != nil {
 		panic(err)
 	}
