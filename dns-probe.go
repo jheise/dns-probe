@@ -6,8 +6,8 @@ import (
 	"fmt"
 
 	//external
-	"code.google.com/p/gopacket"
-	"code.google.com/p/gopacket/pcap"
+	"github.com/google/gopacket"
+	"github.com/google/gopacket/pcap"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 

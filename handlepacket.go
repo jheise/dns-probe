@@ -5,8 +5,8 @@ import (
 	"time"
 
 	//external
-	"code.google.com/p/gopacket"
-	"code.google.com/p/gopacket/layers"
+	"github.com/google/gopacket"
+	"github.com/google/gopacket/layers"
 )
 
 func handlePacket(packet gopacket.Packet) (*DNSCapture, error) {
@@ -35,6 +35,16 @@ func handlePacket(packet gopacket.Packet) (*DNSCapture, error) {
 
 		dcap.Query = string(dns.Questions[0].Name)
 		dcap.Timestamp = time.Now().Unix()
+		dcap.Request = dns.QR
+
+		// add answers to packet
+		if dns.QR {
+			for _, answer := range dns.Answers {
+				if answer.Type == layers.DNSTypeA || answer.Type == layers.DNSTypeAAAA {
+					dcap.Answers = append(dcap.Answers, answer.IP)
+				}
+			}
+		}
 
 	}
 	return dcap, err
