@@ -50,3 +50,13 @@ func handlePacket(packet gopacket.Packet) (*DNSCapture, error) {
 	return dcap, err
 
 }
+
+func processer(packets chan gopacket.Packet, captures chan *DNSCapture) {
+	for packet := range packets {
+		dcap, err := handlePacket(packet)
+		if err != nil {
+			panic(err)
+		}
+		captures <- dcap
+	}
+}

@@ -18,8 +18,12 @@ var (
 
 func main() {
 	kingpin.Parse()
-	caps := make(chan *DNSCapture)
+	caps := make(chan Interface)
+	packets := make(chan gopacket.Packet)
 	fmt.Printf("Listening on %s\nPublishing on %s\n", *iface, *port)
+
+	// start packet processor
+	go processer(packets, caps)
 
 	// start capture consumer
 	go publisher(caps, *port)
@@ -34,10 +38,13 @@ func main() {
 	}
 	packetSource := gopacket.NewPacketSource(handle, handle.LinkType())
 	for packet := range packetSource.Packets() {
-		dcap, err := handlePacket(packet)
-		if err != nil {
-			panic(err)
-		}
-		caps <- dcap
+		packets <- packet
+		//dcap, err := handlePacket(packet)
+		/*
+			if err != nil {
+				panic(err)
+			}
+			caps <- dcap
+		*/
 	}
 }
