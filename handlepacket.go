@@ -152,8 +152,9 @@ func processer(packets chan gopacket.Packet, captures chan interface{}) {
 					dcap.Request = request
 					dcap.Type = getType(answer.Type)
 					if answer.Type == layers.DNSTypeA || answer.Type == layers.DNSTypeAAAA {
-						dcap.Answer = string(answer.IP)
+						dcap.Answer = answer.IP.String()
 					}
+
 					// write packet to wire
 					captures <- dcap
 				}
