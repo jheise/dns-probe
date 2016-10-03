@@ -18,7 +18,7 @@ var (
 
 func main() {
 	kingpin.Parse()
-	caps := make(chan Interface)
+	caps := make(chan interface{})
 	packets := make(chan gopacket.Packet)
 	fmt.Printf("Listening on %s\nPublishing on %s\n", *iface, *port)
 

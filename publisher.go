@@ -9,7 +9,7 @@ import (
 	zmq "github.com/pebbe/zmq4"
 )
 
-func publisher(caps chan *DNSCapture, port string) {
+func publisher(caps chan interface{}, port string) {
 	publisher, _ := zmq.NewSocket(zmq.PUB)
 	connect_string := fmt.Sprintf("tcp://*:%s", port)
 	publisher.Bind(connect_string)

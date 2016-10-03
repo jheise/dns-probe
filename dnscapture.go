@@ -18,12 +18,13 @@ type DNSQuery struct {
 	Request      bool
 	Query        string
 	Timestamp    int64
-	Type         uint16
+	Type         string
 }
 
 type DNSAnswer struct {
-	SrcIP, DstIP, Answer net.IP
-	Request              bool
-	Timestamp            int64
-	Type                 uint16
+	Answer       string
+	SrcIP, DstIP net.IP
+	Request      bool
+	Timestamp    int64
+	Type         string
 }
