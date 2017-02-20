@@ -150,9 +150,11 @@ func processer(packets chan gopacket.Packet, captures chan interface{}) {
 					dcap.DstIP = dstip
 					dcap.Timestamp = timestamp
 					dcap.Request = request
+					dcap.Query = string(answer.Name)
 					dcap.Type = getType(answer.Type)
 					//if answer.Type == layers.DNSTypeA || answer.Type == layers.DNSTypeAAAA {
 					dcap.Answer = answer.IP.String()
+					dcap.TTL = answer.TTL
 					//}
 
 					// write packet to wire

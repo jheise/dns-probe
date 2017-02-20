@@ -23,8 +23,10 @@ type DNSQuery struct {
 
 type DNSAnswer struct {
 	Answer       string
+	Query        string
 	SrcIP, DstIP net.IP
 	Request      bool
 	Timestamp    int64
 	Type         string
+	TTL          uint32
 }
